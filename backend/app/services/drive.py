@@ -32,26 +32,35 @@ MIME_TYPE_LABELS = {
 
 
 def get_drive_service():
-    """Build and return an authenticated Google Drive service."""
     try:
-        # Try raw JSON string first (for cloud deployments via env var)
-        if settings.GOOGLE_CREDENTIALS_JSON:
-            info = json.loads(settings.GOOGLE_CREDENTIALS_JSON)
-            creds = service_account.Credentials.from_service_account_info(info, scopes=SCOPES)
-        elif settings.GOOGLE_APPLICATION_CREDENTIALS and os.path.exists(settings.GOOGLE_APPLICATION_CREDENTIALS):
-            creds = service_account.Credentials.from_service_account_file(
-                settings.GOOGLE_APPLICATION_CREDENTIALS, scopes=SCOPES
+        credentials_json = settings.GOOGLE_CREDENTIALS_JSON
+
+        print("Credentials JSON exists:", bool(credentials_json))
+
+        if not credentials_json:
+            logger.warning(
+                "No Google credentials found. Drive search will return demo data."
             )
-        else:
-            logger.warning("No Google credentials found. Drive search will return demo data.")
             return None
 
-        service = build("drive", "v3", credentials=creds)
-        return service
-    except Exception as e:
-        logger.error(f"Failed to build Drive service: {e}")
-        return None
+        info = json.loads(credentials_json)
 
+        creds = service_account.Credentials.from_service_account_info(
+            info,
+            scopes=SCOPES
+        )
+
+        service = build(
+            "drive",
+            "v3",
+            credentials=creds
+        )
+
+        return service
+
+    except Exception as e:
+        logger.error(f"Google Drive init failed: {e}")
+        return None
 
 def search_drive_files(query: str, folder_id: Optional[str] = None, max_results: int = 20) -> dict:
     """
