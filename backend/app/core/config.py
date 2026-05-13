@@ -1,7 +1,5 @@
-import os
 from pydantic_settings import BaseSettings
 from typing import Optional
-
 
 class Settings(BaseSettings):
     # LLM Configuration
@@ -11,7 +9,7 @@ class Settings(BaseSettings):
 
     # Google Drive Configuration
     GOOGLE_APPLICATION_CREDENTIALS: Optional[str] = "credentials.json"
-    GOOGLE_CREDENTIALS_JSON: Optional[str] = None  # Raw JSON string for cloud deploy
+    GOOGLE_CREDENTIALS_JSON: Optional[str] = None
     DRIVE_FOLDER_ID: Optional[str] = None
 
     # App Configuration
@@ -19,9 +17,7 @@ class Settings(BaseSettings):
     DEBUG: bool = False
     BACKEND_URL: str = "http://localhost:8000"
 
-    class Config:
-        env_file = ".env"
-        extra = "allow"
-
+class Config:
+    extra = "allow"
 
 settings = Settings()
