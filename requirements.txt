@@ -1,0 +1,29 @@
+# Web Framework
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+pydantic==2.10.3
+pydantic-settings==2.6.1
+ 
+# LangChain & Agent (compatible versions)
+langchain==0.3.12
+langchain-core==0.3.29
+langchain-community==0.3.12
+ 
+# LLM Providers
+langchain-groq==0.2.3
+langchain-openai==0.2.12
+langchain-google-genai==2.0.7
+ 
+# Google Drive
+google-api-python-client==2.154.0
+google-auth==2.36.0
+google-auth-httplib2==0.2.0
+google-auth-oauthlib==1.2.1
+ 
+# Frontend
+streamlit==1.40.2
+requests==2.32.3
+ 
+# Utilities
+python-dotenv==1.0.1
+httpx==0.27.2
